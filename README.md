@@ -1,7 +1,7 @@
 # soundsdope.io site
 
 Static site for https://www.soundsdope.io, served by GitHub Pages from `rza-boop/soundsdope-site` (branch `main`, root).
-Built from the cabin comps in `CreatorLand/Brands/soundsdope/site-mock/v7/cabin/` by `_build/build_site.py`.
+Built from the cabin comps in `CreatorLand/Brands/soundsdope/site-mock/v8/cabin/` by `_build/build_site.py`.
 
 ## Rebuild and push
 
@@ -9,7 +9,7 @@ Built from the cabin comps in `CreatorLand/Brands/soundsdope/site-mock/v7/cabin/
 cd ~/Desktop/CreatorLand/Brands/soundsdope/site
 python3 _build/build_site.py          # rewrites every page, assets/, favicons, og.jpg, robots.txt, sitemap.xml
 git status && git diff --stat         # look before you push
-git add -A && git commit -m "Rebuild from the v7 cabin comps" && git push
+git add -A && git commit -m "Rebuild from the v8 cabin comps" && git push
 ```
 
 GitHub Pages republishes within a minute or two. Check with
@@ -24,7 +24,8 @@ refuses to write a page that still says draft, placeholder, decision pending, ne
 - Review bar, draft marks, image credits, "(decision pending)" sections.
 - Home: the placeholder quotes and their heading; the rival columns of the compare teaser; the copyright row.
 - Compare: rival rows, the Admin fee column (not set), the copyright column, the links to the rival pages.
-- The seven rival pages (`/compare/<rival>`) and the news post template (`/news/<post>`).
+- The seven rival pages (`/compare/<rival>`), the news post template (`/news/<post>`), and the Calculator header B alternative (`calculator-alt.html`; header A is live).
+- The "Header test" label on the Calculator header.
 - Learn: the four article titles that have no article yet; the article's Related articles.
 - News: the placeholder posts ("The first summaries are coming soon." instead).
 - About: the placeholder people.

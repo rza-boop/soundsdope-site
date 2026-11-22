@@ -389,3 +389,138 @@ td .src{display:block;margin-top:4px}
 .phead .crumb{background:none;padding-bottom:6px;position:relative}
 .phead .crumb::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1.5px;background:repeating-linear-gradient(90deg,rgba(242,138,46,.85) 0 5px,transparent 5px 9px)}
 @media (max-width:820px){.phead{padding-bottom:72px}}
+
+/* ===== v8 (test): the instruments set into the leather. Cabin lead, 22 Nov 2026 =====
+   Rza, 22 Nov 2026: "are we able to use the quilted leather as the more general background (not a section header) and then see how the
+   instruments and displays sit in them? id like get a look where all the "dashboard instrument" items look set into the leather. this also
+   might need the little brush nickel/aluminum accents"
+   - The page background is the real Gemini quilt, as a mirrored seamless tile, graded dark.
+   - Every instrument (stage panels, gauge, keys, forms, the comparison panel, call-to-action panels) sits in a real Gemini bezel:
+     brushed nickel trim, the leather puckered at the edge, a stitched surround. The rectangle is 9-sliced (border-image) so it fits any size;
+     its outer leather fades into the page leather. The gauge sits in a round brushed-aluminium bezel.
+   - Headers: How it works and Compare open on the brick-and-speaker photo; Calculator on the hi-fi photo. */
+
+body{background:linear-gradient(rgba(4,5,7,.76),rgba(4,5,7,.76)),url(img/leather-tile.jpg) 0 0/760px auto repeat #040507}
+:root{--mute:#B0AEA6;--tag:#B4B6BC}
+.lede{color:#C4C0B5}
+/* small greys on the leather, lifted so they hold 4.5:1 against its brightest highlight */
+.mark,.src,.rows a span,.pending,.q .tag,.meta,.fine,.where .lab{color:#B4B6BC}
+.rows a em,td,th{color:#B0AEA6}
+.mark,.draftnote{background:rgba(4,5,7,.92)}
+
+/* the set-in bezel: real metal and leather from img/bezel-rect.jpg, 9-sliced; the outer leather fades into the page */
+.panel,.setin,form,.wide,.key{border-style:solid;border-color:transparent;background-clip:padding-box}
+.panel,.setin,form,.wide{border-width:44px;border-image:url(img/bezel-rect.png) 100 / 44px stretch;box-shadow:none}
+.panel{background:#05070B url(img/smoked.jpg) center/cover;background-clip:padding-box;border-radius:0}
+.panel::after{inset:0}
+form,.wide{position:relative;background:rgba(3,4,6,.9);background-clip:padding-box;padding:30px 30px 26px;margin-left:-44px;margin-right:-44px}
+form>*,.wide>*{position:relative;z-index:1}
+.wide table{margin-top:0}
+.cluster{padding:34px 30px 32px}
+.stg{padding:18px 24px 18px 16px}
+.cta{padding:24px 30px}
+.route{padding:20px 26px}
+.region{padding:20px 20px 14px}
+.person{padding:16px}
+.stages{gap:4px}
+.regions{gap:6px}
+
+/* keys: the lit face held in a thin nickel trim from the same bezel, scaled down */
+.key{border-width:7px;border-image:url(img/bezel-rect.png) 100 / 9px stretch;border-radius:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.6),inset 0 -14px 18px -10px rgba(94,143,255,.75),inset 0 0 18px 4px rgba(0,0,0,.8)}
+.key.go{box-shadow:inset 0 0 0 1px rgba(255,214,170,.5),inset 0 0 16px 2px rgba(255,190,120,.55),inset 0 -6px 12px -6px rgba(120,50,0,.6),0 0 22px -4px rgba(242,138,46,.7)}
+.key.sm{border-width:5px;border-image-width:7px}
+
+/* the gauge: a round brushed-aluminium bezel set into the leather; the dial and readout live inside its glass */
+.gauge{width:min(540px,100%);background:url(img/bezel-round.jpg) center/100% 100%;border-radius:50%;
+  -webkit-mask-image:radial-gradient(circle,#000 62%,transparent 71%);mask-image:radial-gradient(circle,#000 62%,transparent 71%)}
+.gauge .face{display:none}
+.gauge .dial{inset:25%;width:50%;height:50%}
+.gauge .read{left:32%;right:32%;top:45.5%;bottom:42%;border-radius:6px}
+.gauge .read::after{border-radius:6px}
+.gauge .k{top:36.5%;font-size:12.5px}
+.gauge .v{font-size:clamp(18px,1.9vw,26px)}
+.gauge .s{top:61%;font-size:12.5px}
+
+/* page headers on leather: no band of their own now, the page leather runs through; headline pressed in (A), seam (D) */
+.phead{background:none}
+.phead::before{background:linear-gradient(180deg,rgba(4,5,7,.55),rgba(4,5,7,.15) 50%,rgba(4,5,7,.3))}
+.proof{background:none}
+.proof::before{background:none}
+/* Home hero headline runs onto the trunk photo, so it stays plain Gloock (pressed-in goes muddy on a photo) */
+
+/* photo headers: the picture on the right, fading into the leather; the headline over it stays plain Gloock */
+.phead.photo{min-height:640px;display:flex;align-items:flex-end;padding:170px 0 110px}
+.phead.photo .ph{position:absolute;inset:0 0 0 30%;background-size:cover;background-position:var(--pos,60% 50%);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 26%),linear-gradient(180deg,#000 78%,transparent 100%);-webkit-mask-composite:source-in;
+  mask-image:linear-gradient(90deg,transparent 0%,#000 26%),linear-gradient(180deg,#000 78%,transparent 100%);mask-composite:intersect}
+.phead.photo::before{background:none}
+.phead.photo .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,5,7,.75) 0%,rgba(4,5,7,0) 22%)}
+.phead.photo .wrap{width:100%}
+.phead.photo h1{color:var(--ink);text-shadow:0 2px 18px rgba(0,0,0,.8)}
+.phead.photo .lede{max-width:520px}
+.phead .credit{position:absolute;right:20px;bottom:46px;z-index:3;font-size:11px;color:rgba(236,229,211,.5)}
+.testnote{position:absolute;left:48px;top:96px;z-index:4;font-size:13px;color:#F7A85C;background:rgba(4,5,7,.85);padding:4px 10px}
+
+@media (max-width:820px){
+  .panel,.setin,form,.wide{border-width:20px;border-image-width:20px}
+  form,.wide{margin-left:-20px;margin-right:-20px;padding:20px 16px 18px}
+  .cluster{padding:22px 16px 22px}
+  .stg{padding:14px 12px}
+  .cta,.route{padding:18px 16px}
+  .phead.photo{min-height:0;display:block;padding:0 0 70px}
+  .phead.photo .ph{position:relative;inset:auto;display:block;height:360px;background-position:80% 60% !important;-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent 100%);mask-image:linear-gradient(180deg,#000 70%,transparent 100%)}
+  .phead.photo .wrap{padding-top:10px}
+  .phead .credit{top:336px;bottom:auto}
+  .testnote{left:16px;top:76px}
+  .gauge{width:min(360px,100%)}
+}
+
+/* ===== v8 round 2 (Rza, 22 Nov 2026): "headers shouldn't get the leather. the instruments look set in right. The leather now looks too
+   bright. We need to bring in an ebony wood grain trim that'll frame in the header and the footer a bit better?" =====
+   - Headers sit on black, the photo on black as on Home; no leather behind or under them, no leather band headers.
+   - The leather is graded down to deep black: the quilting visible but quiet.
+   - An ebony trim (real Gemini macassar ebony with a brushed-nickel inlay) frames the header's lower edge and the footer's upper edge,
+     where the leather meets them. */
+body{background:linear-gradient(rgba(3,4,6,.87),rgba(3,4,6,.87)),url(img/leather-tile.jpg) 0 0/760px auto repeat #040507}
+.hero,.phead,.nav,footer{background-color:#040507}
+.phead::before{background:none}
+.phead .seam{display:none}
+.phead:not(.photo) h1{color:var(--ink);text-shadow:none}
+.phead:not(.photo){padding-bottom:86px}
+.phead.photo{padding-bottom:96px}
+.proof h2{color:rgba(214,206,190,.84)}
+.trim{display:block;height:58px;border:0;margin:0;background:#120c09 url(img/ebony.jpg) center/100% 150px no-repeat;
+  box-shadow:inset 0 1px 0 rgba(255,236,214,.10),inset 0 -1px 0 rgba(0,0,0,.9),0 6px 14px -4px rgba(0,0,0,.85),0 -6px 14px -4px rgba(0,0,0,.85);position:relative;z-index:3}
+@media (max-width:820px){.trim{height:38px;background-size:100% 100px}}
+
+/* ===== v8 round 3 (Rza, 22 Nov 2026): "i think a looks really good and we can get some of it around the polished nickel on the instruments
+   and then it'll look very much stiched/mounted" =====
+   - Trim A, piano-black lacquer with a nickel inlay (real Gemini), frames the header foot and the footer top on every page.
+   - Each instrument sits in a new real Gemini bezel built up from the leather: stitched seam, a piano-black lacquer surround, the polished
+     nickel ring, then the panel. Same 9-slice; the round gauge gets the matching lacquer ring.
+   - The leather now starts at the top of the content, under the header trim, so its pattern begins cleanly there. */
+.trim{background:#020203 url(img/trim-lacquer.jpg) center/100% 62px no-repeat}
+@media (max-width:820px){.trim{background-size:100% 44px}}
+body{background:#040507}
+main{background:linear-gradient(rgba(3,4,6,.87),rgba(3,4,6,.87)),url(img/leather-tile.jpg) center top/760px auto repeat #040507}
+.panel,.setin,form,.wide{border-width:44px 52px 41px 54px;border-image:url(img/bezel-lacquer.png) 210 252 196 260 / 44px 52px 41px 54px stretch}
+form,.wide{margin-left:-54px;margin-right:-52px}
+.key{border-image:url(img/bezel-lacquer.png) 210 252 196 260 / 9px 11px 9px 11px stretch}
+.gauge{background-image:url(img/bezel-round-lacquer.jpg)}
+@media (max-width:820px){
+  .panel,.setin,form,.wide{border-width:20px;border-image-width:20px}
+  form,.wide{margin-left:-20px;margin-right:-20px}
+}
+
+/* ===== v8 round 4 (Rza, 22 Nov 2026): "i don't see the instruments having the lacquer border here. also, these orange buttons got
+   something weird." =====
+   - The lacquer surround in img/bezel-lacquer.png is now laid with real piano-black lacquer from the Gemini trim photo (its crisp reflection
+     along the top edge), so leather, stitch, lacquer, nickel and panel each read.
+   - Keys: no 9-sliced bezel (it scaled the leather into a gritty frame) and no dot grid on the orange face. A plain lacquer bezel
+     (solid deep black, one fine highlight line), a smooth lit-orange face, a soft even glow, nothing outside it. */
+.key{border:4px solid #050506;border-image:none;border-radius:8px;background-clip:padding-box}
+.key.go{background:radial-gradient(120% 140% at 50% 110%,#FFC98A 0%,#F7A04A 35%,#F28A2E 65%,#D46F18 100%) padding-box;
+  box-shadow:inset 0 1px 0 rgba(255,226,190,.55),inset 0 -2px 6px rgba(120,50,0,.35),0 0 0 1px rgba(255,255,255,.07),0 0 18px -3px rgba(242,138,46,.55)}
+.key.go::after{content:none}
+.key.blue{box-shadow:inset 0 0 0 1px rgba(0,0,0,.6),inset 0 -14px 18px -10px rgba(94,143,255,.75),inset 0 0 18px 4px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.07)}
+.key.sm{border-width:3px;border-radius:7px}

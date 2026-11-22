@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Build the soundsdope.io static site from the v7 cabin comps.
+"""Build the soundsdope.io static site from the v8 cabin comps.
 
 Site lead, 22 Nov 2026. Same route as ndigocartel.com and frankwhitedealsdope.com
 (CreatorLand/New Channel Build Kit/How we build complex sites.md, sections 5 and 6).
 
-It reads the built comps in Brands/soundsdope/site-mock/v7/cabin/ (read only), and for each live page:
+It reads the built comps in Brands/soundsdope/site-mock/v8/cabin/ (read only), and for each live page:
   - drops the review chrome: the review bar, "draft" marks, placeholder tags, image credits, "(decision pending)" sections;
   - drops what is not ready to publish: placeholder quotes, competitor cells that need a source, placeholder people,
     placeholder news posts, and article titles that have no article yet;
@@ -13,12 +13,14 @@ It reads the built comps in Brands/soundsdope/site-mock/v7/cabin/ (read only), a
 Every replacement asserts that the text it expects is there, so a change in the comps stops the build with the
 reason instead of publishing something half-stripped. A last pass refuses to write if any review word survives.
 
-Run: python3 _build/build_site.py [comps-dir]     (default: ../../site-mock/v7/cabin from this file)
+Run: python3 _build/build_site.py [comps-dir]     (default: ../../site-mock/v8/cabin from this file)
+Source moved v7 -> v8 on Rza's "Yes, push v8 live" (22 Nov 2026, via the orchestrator); Calculator uses header A
+(calculator.html); the header B alternative (calculator-alt.html) is not built.
 """
 import html, pathlib, re, shutil, sys
 
 SITE = pathlib.Path(__file__).resolve().parent.parent
-SRC = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else SITE.parent / "site-mock" / "v7" / "cabin"
+SRC = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else SITE.parent / "site-mock" / "v8" / "cabin"
 FAVSRC = SITE.parent / "brand" / "brick3d"          # the clef-and-sharp favicon set (Rza, 19 Nov 2026)
 ORIGIN = "https://www.soundsdope.io"
 ARTICLE = "what-the-mlc-does"
@@ -43,7 +45,8 @@ PAGES = {
 # Held back from the live build (listed in README.md): the seven rival pages (every rival cell needs a source,
 # so nothing sourced is left) and the news post template (no real post yet).
 HELD = ["compare-songtrust.html", "compare-sentric.html", "compare-tunecore.html", "compare-distrokid.html",
-        "compare-routenote.html", "compare-kosign.html", "compare-rightstune.html", "news-post.html"]
+        "compare-routenote.html", "compare-kosign.html", "compare-rightstune.html", "news-post.html",
+        "calculator-alt.html"]  # header test B; Rza's pick is header A (calculator.html)
 LINKS = {f: "/" + p for f, (p, _, _) in PAGES.items()}
 
 EXTRA_CSS = """<style>
@@ -78,7 +81,8 @@ def strip_common(s):
     s = re.sub(r'<p class="mark">.*?</p>', "", s, flags=re.S)                        # "Draft ..." marks
     s = re.sub(r'<p class="meta"[^>]*>[^<]*(Draft|Placeholder)[^<]*</p>\s*', "", s)  # article / legal draft lines
     s = re.sub(r'<p class="draftnote">.*?</p>', "", s, flags=re.S)
-    s = re.sub(r'<span class="credit">[^<]*</span>\s*', "", s)                        # "Generated image (Gemini), draft"
+    s = re.sub(r'<span class="credit">[^<]*</span>\s*', "", s)
+    s = re.sub(r'<p class="testnote">[^<]*</p>', "", s)                              # "Header test A: ..." label                        # "Generated image (Gemini), draft"
     # "(decision pending)" sections: a section that holds only a heading and the pending box goes; inline boxes go
     s = re.sub(r'<section class="sec[^"]*"><div class="wrap"><h2>[^<]*</h2><div style="margin-top:\d+px"><div class="pending">[^<]*</div></div></div></section>', "", s)
     s = re.sub(r'<div style="margin-top:\d+px">\s*<div class="pending">[^<]*</div></div>', "", s)
@@ -148,6 +152,7 @@ def page_body(f, s):
 
 
 def links(s):
+    s = s.replace("url(img/", "url(/assets/img/")                                    # inline header photos
     for f, path in LINKS.items():
         s = s.replace(f'href="{f}"', f'href="{path}"').replace(f'href="{f}#', f'href="{path}#')
     return s
@@ -204,7 +209,7 @@ def wrap(title, desc, path, nav, body, foot):
 
 # words that mean a review artefact survived; the build refuses to write if any is left in a live page
 FORBIDDEN = ["draft", "placeholder", "decision pending", "needs a source", "mockup", "gemini", "rza", "for review",
-             "class=\"review\"", "class=\"mark\"", "class=\"pending\"", "class=\"tag\"", "class=\"credit\""]
+             "class=\"review\"", "class=\"mark\"", "class=\"pending\"", "class=\"tag\"", "class=\"credit\"", "testnote", "header test"]
 
 
 def check(path, s):
@@ -250,7 +255,10 @@ def main():
     (SITE / "assets" / "img").mkdir(parents=True, exist_ok=True)
     shutil.copy(SRC / "cabin.css", SITE / "assets" / "cabin.css")
     css = (SRC / "cabin.css").read_text()
-    for img in sorted(set(re.findall(r"url\(img/([^)]+)\)", css))):
+    used = set(re.findall(r"url\(img/([^)]+)\)", css))
+    for p in SITE.rglob("*.html"):
+        used |= set(re.findall(r"url\(/assets/img/([^)]+)\)", p.read_text()))
+    for img in sorted(used):
         shutil.copy(SRC / "img" / img, SITE / "assets" / "img" / img)
 
     # favicon: the clef and sharp on the shade 2 tile (brand/brick3d, sd-logo lead, 19 Nov 2026)
