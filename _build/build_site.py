@@ -280,7 +280,7 @@ def main():
             t = SITE / h.lstrip("/")
             assert (t / "index.html").exists() if h.endswith("/") else t.exists(), f"{p.relative_to(SITE)}: broken link {h}"
 
-    (SITE / "CNAME").write_text("www.soundsdope.io\n")
+    (SITE / "CNAME").write_text("www.soundsdope.io")  # exactly as GitHub writes it, so reruns do not churn it
     (SITE / ".nojekyll").write_text("")
     # Not indexed until Rza says to open it (orchestrator's call, 22 Nov 2026, reversible): every page also carries noindex.
     (SITE / "robots.txt").write_text("User-agent: *\nDisallow: /\n")
