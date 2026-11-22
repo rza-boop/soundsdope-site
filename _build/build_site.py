@@ -159,10 +159,18 @@ def lede(s):
     return html.unescape(re.sub(r"<[^>]+>", "", m.group(1))).strip()
 
 
+def fonts():
+    """The comps' Google Fonts link, taken from the comp so a type change carries through."""
+    m = re.search(r'<link rel="stylesheet" href="https://fonts\.googleapis\.com[^>]*>', (SRC / "index.html").read_text())
+    assert m, "no Google Fonts link in the comps"
+    return m.group(0)
+
+
 def wrap(title, desc, path, nav, body, foot):
     full = title if path == "" else f"{title} · soundsdope.io"
     url = ORIGIN + "/" + path
     e = html.escape
+    FONTS = fonts()
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -181,7 +189,7 @@ def wrap(title, desc, path, nav, body, foot):
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#05070B">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Doto:wght@500;700;900&family=Gloock&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
+{FONTS}
 <link rel="stylesheet" href="/assets/cabin.css">
 {EXTRA_CSS}
 </head>
